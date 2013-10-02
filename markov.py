@@ -99,6 +99,6 @@ def main():
             sentence = sentence[:len(sentence)-i+1]
             break
         
-    print sentence
+    print sentence #ahhhh
 
 main()
