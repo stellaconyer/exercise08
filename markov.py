@@ -4,10 +4,10 @@
 
 from sys import argv
 import random
-
-script, filename = argv
+import twitter
 
 capital_tuples = []
+tweetThis = True
 
 def normalize(filetext):
 
@@ -16,7 +16,7 @@ def normalize(filetext):
     list_of_words = filetext.split()
 
     for i in range(len(list_of_words)):
-        list_of_words[i] = list_of_words[i].strip(",\"-;:_()/[]*$#")
+        list_of_words[i] = list_of_words[i].strip(",\-;:_/[]*$#0123456789%")
 
     return list_of_words
 
@@ -30,7 +30,7 @@ def create_dict(list_of_words):
         tuple_to_add = (first_word, list_of_words[i+1])
 
         if "" not in tuple_to_add:
-            if first_word[0].isupper():
+            if ord("A") <= ord(first_word[0]) <= ord("Z"):
                 capital_tuples.append( tuple_to_add )
 
             new_dict.setdefault(tuple_to_add,[])
@@ -38,24 +38,31 @@ def create_dict(list_of_words):
 
     return new_dict
 
+def tweetIt(tweet):
+    if tweetThis:
+
+        #if you want this to work again, fill in the secrets...
+        api = twitter.Api(consumer_key='F8TPrToNh8pLTc0xqdQ', consumer_secret='', access_token_key='1925059322-zJO7EHV2d7lF64iOybPANZTG3mBxuni6Q9AtwUQ', access_token_secret='')
+
+        api.PostUpdate(tweet)
 
 def main():
-    f = open(filename)
-    filetext = f.read()
+
+    filetext = ""
+
+    # this works in Linux where you can unpack multiple values from command line on the fly. argv might be script, filename or script, filename1, filename2, etc.
+    for arg in argv[1:]:
+        f = open(arg)
+        filetext += f.read()
+        f.close()
 
     list_of_words = normalize(filetext)
     markov_dict = create_dict(list_of_words)
-
-    #print markov_dict
-  
-    #starting_index = randint(0,len(markov_dict.keys())-1)
-    # print starting_index
-    # print len(markov_dict.keys())
     
     #Initialize sentence variable as empty string
     sentence = ""
 
-    #Create first two words of the sentence by randomly picking a tuple key
+    #Create first two words of the sentence by randomly picking an item that starts with a capital letter
     random_capital = random.choice(capital_tuples)
 
     #Initial tuple pair
@@ -100,5 +107,7 @@ def main():
             break
         
     print sentence
+
+    tweetIt(sentence)
 
 main()
