@@ -9,6 +9,8 @@ import twitter
 capital_tuples = []
 tweetThis = True
 
+capital_tuples = []
+
 def normalize(filetext):
 
     filetext = filetext.replace("--"," ")
@@ -16,7 +18,11 @@ def normalize(filetext):
     list_of_words = filetext.split()
 
     for i in range(len(list_of_words)):
+<<<<<<< HEAD
         list_of_words[i] = list_of_words[i].strip(",\-;:_/[]*$#0123456789%")
+=======
+        list_of_words[i] = list_of_words[i].strip(",\"-;:_()/[]*$#")
+>>>>>>> 6a5b1582c8b08cd61e456698eedbd3f49c12e024
 
     return list_of_words
 
@@ -30,7 +36,11 @@ def create_dict(list_of_words):
         tuple_to_add = (first_word, list_of_words[i+1])
 
         if "" not in tuple_to_add:
+<<<<<<< HEAD
             if ord("A") <= ord(first_word[0]) <= ord("Z"):
+=======
+            if first_word[0].isupper():
+>>>>>>> 6a5b1582c8b08cd61e456698eedbd3f49c12e024
                 capital_tuples.append( tuple_to_add )
 
             new_dict.setdefault(tuple_to_add,[])
@@ -62,7 +72,11 @@ def main():
     #Initialize sentence variable as empty string
     sentence = ""
 
+<<<<<<< HEAD
     #Create first two words of the sentence by randomly picking an item that starts with a capital letter
+=======
+    #Create first two words of the sentence by randomly picking a tuple key
+>>>>>>> 6a5b1582c8b08cd61e456698eedbd3f49c12e024
     random_capital = random.choice(capital_tuples)
 
     #Initial tuple pair
@@ -107,7 +121,10 @@ def main():
             break
         
     print sentence
+<<<<<<< HEAD
 
     tweetIt(sentence)
+=======
+>>>>>>> 6a5b1582c8b08cd61e456698eedbd3f49c12e024
 
 main()
